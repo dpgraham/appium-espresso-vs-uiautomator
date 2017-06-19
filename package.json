@@ -4,7 +4,9 @@
   "description": "Test the difference between Espresso and UIAutomator Appium drivers",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha --require babel-polyfill --compilers js:babel-core/register ./tests.js"
+    "test": "node_modules/mocha/bin/mocha --require babel-polyfill --compilers js:babel-core/register ./tests.js",
+    "uiautomator2-test": "npm test",
+    "espresso-test": "ESPRESSO=true npm test"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,7 @@
   },
   "homepage": "https://github.com/dpgraham/appium-espresso-vs-uiautomator#readme",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
     "mocha": "^3.4.2",
