@@ -126,7 +126,7 @@ describe("android simple", function () {
     await driver.takeScreenshot();
   });
 
-  it.only("opens and closes a dialog 20 times", async function () {
+  it("opens and closes a dialog 20 times", async function () {
     await driver.init(desired);
     await (await driver.elementByAccessibilityId('App')).click();
     if (!isEspresso) await driver.waitForElementByAccessibilityId('Alert Dialogs');
@@ -137,5 +137,74 @@ describe("android simple", function () {
       if (!isEspresso) await driver.waitForElementById('android:id/button2');
       await (await driver.elementById('android:id/button2')).click();
     }
+  });
+
+  it.only("comprehensive test", async function () {
+
+    // Open the Loader page and test that items show up
+    await driver.init(desired);
+    let appEl = await driver.elementByAccessibilityId('App');
+    await appEl.click();
+    if (!isEspresso) await driver.waitForElementByAccessibilityId('Loader');
+    let loaderEl = await driver.elementByAccessibilityId('Loader');
+    await loaderEl.click();
+    if (!isEspresso) await driver.waitForElementByAccessibilityId('Custom');
+    let cursorEl = await driver.elementByAccessibilityId('Custom');
+    await cursorEl.click();
+    if (!isEspresso) await driver.waitForElementById('android:id/list');
+    await driver.elementById('android:id/list');
+    (await driver.elementsByXPath('//android.widget.ListView/android.widget.LinearLayout')).length.should.be.above(4);
+    await driver.back();
+    await driver.back();
+
+    // Open the app/notification/statusbar page
+    if (!isEspresso) await driver.waitForElementByAccessibilityId('Notification');
+    let notificationEl = await driver.elementByAccessibilityId('Notification');
+    await notificationEl.click();
+    if (!isEspresso) await driver.waitForElementByAccessibilityId('IncomingMessage');
+    let incomingMessageEl = await driver.elementByAccessibilityId('IncomingMessage');
+    await incomingMessageEl.click();
+    await driver.back();
+    await driver.back();
+
+    // Open the Custom Title activity and send keys
+    if (!isEspresso) await driver.waitForElementByAccessibilityId('Activity');
+    let activityEl = await driver.elementByAccessibilityId('Activity');
+    await activityEl.click();
+    if (!isEspresso) await driver.waitForElementByAccessibilityId('Custom Title');
+    let customTitleEl = await driver.elementByAccessibilityId('Custom Title');
+    await customTitleEl.click();
+    if (!isEspresso) await driver.waitForElementByAccessibilityId('Left is best');
+    let leftTextEl = await driver.elementByXPath('//android.widget.EditText[@content-desc="Left is best"]');
+    await leftTextEl.sendKeys(' hello world');
+    let leftTextViewEl = await driver.elementByXPath('//android.widget.TextView[@content-desc="Left is best"]');
+    await leftTextViewEl.text().should.eventually.equal('Left is best');
+    await driver.back();
+    await driver.back();
+    await driver.back();
+
+    // Open the alert dialogs
+    if (!isEspresso) await driver.waitForElementByAccessibilityId('Alert Dialogs');
+    let alertDialogsEl = await driver.elementByAccessibilityId('Alert Dialogs');
+    await alertDialogsEl.click();
+    if (!isEspresso) await driver.waitForElementByAccessibilityId('OK Cancel dialog with a message');
+    let okCancelEl = await driver.elementByAccessibilityId('OK Cancel dialog with a message');
+    await okCancelEl.click();
+    if (!isEspresso) await driver.waitForElementById('android:id/button2');
+    let cancelButtonEl = await driver.elementById('android:id/button2');
+    await cancelButtonEl.click();
+    if (!isEspresso) await driver.waitForElementByAccessibilityId('Text Entry dialog');
+    let textEntryEl = await driver.elementByAccessibilityId('Text Entry dialog');
+    await textEntryEl.click();
+    if (!isEspresso) await driver.waitForElementById('io.appium.android.apis:id/username_edit');
+    let nameTextEl = await driver.elementById('io.appium.android.apis:id/username_edit');
+    await nameTextEl.sendKeys('Hello World');
+    let passwordEl = await driver.elementById('io.appium.android.apis:id/password_edit');
+    await passwordEl.sendKeys('Foo Bar');
+    let cancelEntryEl = await driver.elementById('android:id/button2');
+    cancelEntryEl.click();
+    await driver.back();
+    await driver.back();
+
   });
 });
