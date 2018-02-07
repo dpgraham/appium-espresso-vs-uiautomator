@@ -22,7 +22,7 @@
     "bluebird": "^3.5.0",
     "chai": "^4.0.2",
     "chai-as-promised": "^7.0.0",
-    "mocha": "^3.4.2",
+    "mocha": "^5.0.0",
     "wd": "^1.2.0"
   },
   "devDependencies": {
